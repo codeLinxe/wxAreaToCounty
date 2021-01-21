@@ -26,7 +26,7 @@ function saveJSON(data, filename){
 }
 
 function getWxAreaJson() {
-    return fetch('http://127.0.0.1:8080/wxarea.json')
+    return fetch('http://127.0.0.1:8080/wxarea.min.json')
 }
 
 getWxAreaJson().then(res => {
@@ -61,7 +61,7 @@ getWxAreaJson().then(res => {
                 if(areaList.length === 0) {
                     let lastCityStr = city.city_name.charAt(city.city_name.length - 1)
                     if(lastCityStr === '区') {
-                        console.log('无area-区', city)
+                        // console.log('无area-区', city)
                     } else {
                         citySp = false;
                         let areaObj = {
