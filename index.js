@@ -42,13 +42,16 @@ getWxAreaJson().then(res => {
         if(cityList.length === 0) {
             let areaObj = {
                 area_name: province.province_name,
-                area_code: province.province_code,
-                city: provinceObj,
+                area_code: '',
+                city: {
+                    area_name: province.province_name,
+                    area_code: '',
+                },
                 province: provinceObj
             }
             resultArr.push(areaObj)
         } else {
-            let citySp = false;
+            let citySp = true;
             cityList.forEach(city => {
                 let cityObj = {
                     area_name: city.city_name,
@@ -58,12 +61,12 @@ getWxAreaJson().then(res => {
                 if(areaList.length === 0) {
                     let lastCityStr = city.city_name.charAt(city.city_name.length - 1)
                     if(lastCityStr === '区') {
-                        // console.log('区', city)
-                        citySp = true;
+                        console.log('无area-区', city)
                     } else {
+                        citySp = false;
                         let areaObj = {
                             area_name: city.city_name,
-                            area_code: city.city_code,
+                            area_code: '',
                             city: cityObj,
                             province: provinceObj
                         }
@@ -73,8 +76,9 @@ getWxAreaJson().then(res => {
                     areaList.forEach(area => {
                         let lastStr = area.area_name.charAt(area.area_name.length - 1)
                         if(lastStr === '区') {
-                            // console.log('区', area)
+                        
                         } else {
+                            citySp = false;
                             let areaObj = {
                                 area_name: area.area_name,
                                 area_code: area.area_code,
@@ -83,18 +87,19 @@ getWxAreaJson().then(res => {
                             }
                             resultArr.push(areaObj)
                         }
-                        
                     })
                 }
-                
             })
 
             if(citySp) {
-                // 针对香港、澳门做特殊处理
+                // 针对香港、澳门、直辖市做特殊处理
                 let areaObj = {
                     area_name: province.province_name,
-                    area_code: province.province_code,
-                    city: provinceObj,
+                    area_code: '',
+                    city: {
+                        area_name: province.province_name,
+                        area_code: ''
+                    },
                     province: provinceObj
                 }
                 resultArr.push(areaObj)
